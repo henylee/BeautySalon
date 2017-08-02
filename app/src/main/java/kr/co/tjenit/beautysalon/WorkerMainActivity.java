@@ -1,0 +1,45 @@
+package kr.co.tjenit.beautysalon;
+
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import kr.co.tjenit.beautysalon.Utiles.GeneralUtil;
+import kr.co.tjenit.beautysalon.datas.DesignCase;
+
+public class WorkerMainActivity extends BaseActivity {
+
+    private android.widget.ListView reservationListview;
+    private ArrayAdapter<DesignCase> reservationAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_worker_main);
+
+        bindViews();
+        setupEvents();
+        setValues();
+
+    }
+
+    @Override
+    public void setupEvents() {
+        super.setupEvents();
+    }
+
+    @Override
+    public void setValues() {
+        super.setValues();
+
+        reservationAdapter = new ArrayAdapter<DesignCase>(mContext, android.R.layout.simple_list_item_1, GeneralUtil.GlobalDesignCase);
+        reservationListview.setAdapter(reservationAdapter);
+
+    }
+
+    @Override
+    public void bindViews() {
+        super.bindViews();
+        this.reservationListview = (ListView) findViewById(R.id.reservationListview);
+    }
+}
