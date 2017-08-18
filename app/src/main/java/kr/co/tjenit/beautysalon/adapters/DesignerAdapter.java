@@ -11,34 +11,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
+import java.util.List;
+import java.util.Locale;
 
 import kr.co.tjenit.beautysalon.R;
+import kr.co.tjenit.beautysalon.Utiles.GlobalData;
 import kr.co.tjenit.beautysalon.datas.Designer;
+import kr.co.tjenit.beautysalon.datas.Person;
 
 /**
- * Created by the on 2017-07-28.
+ * Created by the on 2017-08-18.
  */
 
 public class DesignerAdapter extends ArrayAdapter<Designer> {
 
-    private Context mContext;
-    private ArrayList<Designer> mList;
+    Context mContext;
+    List<Designer> mList;
     LayoutInflater inf;
-    // 화면에 그림을 그려주는 역할을 담당 => 인플레이팅
-    // layout폴더에 있는 xml을 분석해서 화면에 뿌려준다.
 
-    public DesignerAdapter(Context context, ArrayList<Designer> list) {
-
+    public DesignerAdapter(Context context, List<Designer> list) {
         super(context, R.layout.designer_list_item, list);
+
         mContext = context;
         mList = list;
         inf = LayoutInflater.from(mContext);
-
-        // 커스텀으로 직접 리스트뷰의 모양을 구현
-        // context 다음 인자 => 직접  구현한 리스트뷰 아이템의 id
-
-        // 어떤 데이터를 뿌려줄 것인가.
     }
 
     @NonNull
@@ -47,51 +43,61 @@ public class DesignerAdapter extends ArrayAdapter<Designer> {
         View row = convertView;
 
         if (row == null) {
-            // 리스트뷰의 각 아이템을 새로 그려줘야 할때
             row = inf.inflate(R.layout.designer_list_item, null);
         }
 
-        Designer myDesigner = mList.get(position);
+        Designer mDesigner = mList.get(position);
 
+        // 리스트뷰의 필요한 아이템들을 아이디를 먹여 매핑하기.
+        ImageView designerProfileImg = (ImageView) row.findViewById(R.id.designerProfileImg);
         TextView designerNameTxt = (TextView) row.findViewById(R.id.designerNameTxt);
-        designerNameTxt.setText(myDesigner.getNickName() + " (" +  myDesigner.getName() + ")");
-
         TextView majorAgeTxt = (TextView) row.findViewById(R.id.majorAgeTxt);
-        majorAgeTxt.setText(myDesigner.getMajorAge() + "대");
-
         TextView designerGenderTxt = (TextView) row.findViewById(R.id.designerGenderTxt);
-
-        if (myDesigner.getGender()==0) {
-            designerGenderTxt.setText(R.string.man);
-        }
-        else {
-            designerGenderTxt.setText(R.string.woman);
-        }
-
         ImageView star1 = (ImageView) row.findViewById(R.id.star1);
         ImageView star2 = (ImageView) row.findViewById(R.id.star2);
         ImageView star3 = (ImageView) row.findViewById(R.id.star3);
         ImageView star4 = (ImageView) row.findViewById(R.id.star4);
         ImageView star5 = (ImageView) row.findViewById(R.id.star5);
 
-        ArrayList<ImageView> stars = new ArrayList<ImageView>();
-            stars.add(star1);
-            stars.add(star2);
-            stars.add(star3);
-            stars.add(star4);
-            stars.add(star5);
+        // 디자이너의 이름, 닉네임 표시.
+        designerNameTxt.setText(mDesigner.getName() + " (" + mDesigner.getNickName() + ")");
 
+        // 디자이너의 주력 연령대.
+        String majorStr = String.format(Locale.KOREA, "주력분야 : %d대", mDesigner.getMajorAge());
+        majorAgeTxt.setText(majorStr);
+
+        // 디자이너의 성별.
+        if (mDesigner.getGender() == 0) {
+            designerGenderTxt.setText(R.string.man);
+        } else {
+            designerGenderTxt.setText(R.string.woman);
+        }
+
+        // 평점 표시.
+        // 배열을 위한 데이터 세팅.
+        List<ImageView> stars = new ArrayList<>();
+        stars.add(star1);
+        stars.add(star2);
+        stars.add(star3);
+        stars.add(star4);
+        stars.add(star5);
+
+        // 일단 별은 기본적으로 숨김처리 되도록 한다.
         for (ImageView iv : stars) {
             iv.setVisibility(View.GONE);
         }
 
-        int rating = (int) myDesigner.getAvgRating();
-        for (int i=0; i<rating; i++) {
+        // 평점에 맞는 갯수만큼 별표를 다시 보여준다.
+        // 평점에 맞는 갯수 -> int 형태로 구해져야.
+        // 4.3 -> 4개, 3.8 -> 3개 소수점 버림 (캐스팅).
+        // 이유 : 그래야 코딩도 화면 구현도 쉬움.
+        int rating = (int) mDesigner.getAvgRating();
+
+        for (int i = 0; i < rating; i++) {
             stars.get(i).setVisibility(View.VISIBLE);
         }
 
-
-
         return row;
     }
+
 }

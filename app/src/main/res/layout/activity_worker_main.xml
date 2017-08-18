@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/White"
-    tools:context="kr.co.tjenit.beautysalon.WorkerMainActivity">
+    tools:context="kr.co.tjenit.beautysalon.activity.worker_activity.WorkerMainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
