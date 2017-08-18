@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import kr.co.tjenit.beautysalon.Utiles.GeneralUtil;
 import kr.co.tjenit.beautysalon.adapters.PortfolioAdapter;
 import kr.co.tjenit.beautysalon.datas.Designer;
 

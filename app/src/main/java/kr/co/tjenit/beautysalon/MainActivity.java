@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-import kr.co.tjenit.beautysalon.Utiles.GeneralUtil;
+import kr.co.tjenit.beautysalon.Utiles.GlobalData;
 import kr.co.tjenit.beautysalon.adapters.DesignerAdapter;
-import kr.co.tjenit.beautysalon.datas.DesignCase;
 import kr.co.tjenit.beautysalon.datas.Designer;
 
 public class MainActivity extends BaseActivity {
@@ -41,7 +37,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Designer tempDesigner = GeneralUtil.designers.get(position);
+                Designer tempDesigner = GlobalData.designers.get(position);
                 Intent myIntent = new Intent(mContext,  ViewDeignerDetailActivity.class);
                 myIntent.putExtra("deigner", tempDesigner);
                 startActivity(myIntent);
@@ -53,7 +49,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setValues() {
         super.setValues();
-        designerAdapter = new DesignerAdapter(mContext, GeneralUtil.designers);
+        designerAdapter = new DesignerAdapter(mContext, GlobalData.designers);
         designerListView.setAdapter(designerAdapter);
     }
 
