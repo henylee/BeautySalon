@@ -54,6 +54,8 @@ public class SplashActivity extends BaseActivity {
 
     private void addUsers() {
 
+        GlobalData.loginUser = new User("테스트사용자",1,Calendar.getInstance(), new ArrayList<Designer>(), "https://image.fmkorea.com/files/attach/new/20170628/3655299/388198569/695916068/5f8f3b1803d9b9858f8d09433b9c1ee2.jpg");
+
         GlobalData.users.clear();
         GlobalData.users.add(new User("한상열", 0, Calendar.getInstance(),new ArrayList<Designer>(), "https://s3.ap-northeast-2.amazonaws.com/slws3/imgs/tje_practice/images.jpg"));
         GlobalData.users.add(new User("최종환", 0, Calendar.getInstance(),new ArrayList<Designer>(), "https://s3.ap-northeast-2.amazonaws.com/slws3/imgs/tje_practice/images+(1).jpg"));
@@ -70,5 +72,15 @@ public class SplashActivity extends BaseActivity {
         GlobalData.designers.add(new Designer("김정남", 1, "KJN", 30, 3.8f, new ArrayList<DesignCase>()));
         GlobalData.designers.add(new Designer("이승철", 0, "LSC", 50, 2.5f, new ArrayList<DesignCase>()));
         GlobalData.designers.add(new Designer("박준", 0, "PJ", 10, 4.8f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("a", 1, "aaa", 10, 1.5f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("b", 0, "bbb", 10, 3.2f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("c", 0, "ccc", 10, 3.6f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("d", 0, "ddd", 10, 2.4f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("e", 1, "eee", 10, 3.0f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("f", 0, "fff", 10, 2.1f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("g", 0, "ggg", 10, 0.0f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("h", 0, "hhh", 10, 1.9f, new ArrayList<DesignCase>()));
+        GlobalData.designers.add(new Designer("i", 1, "iii", 10, 4.6f, new ArrayList<DesignCase>()));
+
     }
 }

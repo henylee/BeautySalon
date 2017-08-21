@@ -150,10 +150,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/checkSchedualBtn"
+            android:id="@+id/reviewBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/check_schedule"
+            android:text="리뷰남기기"
             android:layout_weight="1"/>
 
         <Button

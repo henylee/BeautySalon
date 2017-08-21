@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="kr.co.tjenit.beautysalon.activity.user_activity.MakeReviewActivity">
+
+    <TextView
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="평점선택"/>
+
+    <RadioGroup
+        android:id="@+id/GPAGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/gpa1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1점"/>
+
+        <RadioButton
+            android:id="@+id/gpa2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2점"/>
+
+        <RadioButton
+            android:id="@+id/gpa3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3점"/>
+
+        <RadioButton
+            android:id="@+id/gpa4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4점"/>
+
+        <RadioButton
+            android:id="@+id/gpa5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5점"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/reviewEditTxt"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="리뷰를 남겨주세요."/>
+
+        <Button
+            android:id="@+id/reviewOkBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인"/>
+
+    </LinearLayout>
+
+</LinearLayout>

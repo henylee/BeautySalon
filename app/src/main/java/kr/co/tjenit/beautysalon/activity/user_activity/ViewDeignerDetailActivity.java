@@ -7,107 +7,113 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import kr.co.tjenit.beautysalon.R;
+import kr.co.tjenit.beautysalon.Utiles.GlobalData;
 import kr.co.tjenit.beautysalon.activity.BaseActivity;
 import kr.co.tjenit.beautysalon.adapters.PortfolioAdapter;
+import kr.co.tjenit.beautysalon.datas.DesignCase;
 import kr.co.tjenit.beautysalon.datas.Designer;
 
 public class ViewDeignerDetailActivity extends BaseActivity {
 
-    private Designer mDesigner;
-    private android.widget.TextView nameTxt;
-    private android.widget.TextView genderTxt;
-    private android.widget.TextView nickTxt;
-    private android.widget.TextView majorTxt;
-    private android.widget.TextView avgTxt;
-    private android.widget.ImageView star1;
-    private android.widget.ImageView star2;
-    private android.widget.ImageView star3;
-    private android.widget.ImageView star4;
-    private android.widget.ImageView star5;
-    ArrayList<ImageView> stars = new ArrayList<ImageView>();
-    private Button checkSchedualBtn;
+    Designer mDesigner = null;
+    final int REQUEST_FOR_REVIEW = 1;
+
+    private TextView nameTxt;
+    private TextView genderTxt;
+    private TextView nickTxt;
+    private TextView majorTxt;
+    private TextView avgTxt;
+    private ImageView star1;
+    private ImageView star2;
+    private ImageView star3;
+    private ImageView star4;
+    private ImageView star5;
+    private ListView portfolioView;
     private Button reservationBtn;
-    private android.widget.ListView portfolioView;
-    PortfolioAdapter portfolioAdapter;
+
+    ArrayList<ImageView> stars = new ArrayList<ImageView>();
+
+    PortfolioAdapter mAdapter;
+    private Button reviewBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_deigner_detail);
 
+        mDesigner = (Designer) getIntent().getSerializableExtra("디자이너데이터");
         bindViews();
-        mDesigner = (Designer) getIntent().getSerializableExtra("designer");
-        setValues();
         setupEvents();
+        setValues();
     }
 
     @Override
     public void setupEvents() {
         super.setupEvents();
 
-        // 일정확인 버튼을 누르면, 준비중입니다. 토스트 띄어주기
-        // 예약하러가기 버튼 => MakeReservation 생성후 넘기기
-
-        checkSchedualBtn.setOnClickListener(new View.OnClickListener() {
+        reviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, R.string.preparing_massage, Toast.LENGTH_SHORT).show();
-
+                Intent intent = new Intent(mContext, MakeReviewActivity.class);
+                startActivityForResult(intent, REQUEST_FOR_REVIEW);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        reservationBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myintent = new Intent(mContext, MakeReservationActivity.class);
-                myintent.putExtra("designer", mDesigner);
-                startActivity(myintent);
+        if (requestCode == REQUEST_FOR_REVIEW) {
+            if (resultCode == RESULT_OK) {
+                String reviewContent = data.getStringExtra("리뷰내용");
+                // 이 화면에 나타난 디자이너의 리뷰목록을 하나 추가해주고 그 리스트뷰를 새로고침.
+                DesignCase tempCase = new DesignCase(R.drawable.salon_logo, Calendar.getInstance(), 3, mDesigner, GlobalData.loginUser, 15000, reviewContent);
+                mDesigner.getPortFolio().add(tempCase);
+                mAdapter.notifyDataSetChanged();
+                // 애니메이션을 이용해 마지막칸으로 이동시켜주는 기능.
+                portfolioView.smoothScrollToPosition(mDesigner.getPortFolio().size() - 1);
             }
-        });
-
+        }
     }
 
     @Override
     public void setValues() {
         super.setValues();
 
-        portfolioAdapter = new PortfolioAdapter(mContext, mDesigner.getPortFolio());
-        portfolioView.setAdapter(portfolioAdapter);
-
         nameTxt.setText(mDesigner.getName());
-        if (mDesigner.getGender()==0) {
-            genderTxt.setText(R.string.man);
+        if (mDesigner.getGender() == 1) {
+            genderTxt.setText("여자");
+        } else if (mDesigner.getGender() == 0) {
+            genderTxt.setText("남자");
         }
-        else {
-            genderTxt.setText(R.string.woman);
-        }
+
         nickTxt.setText(mDesigner.getNickName());
-        majorTxt.setText(mDesigner.getMajorAge()+"대");
+        String majorAge = String.format(Locale.KOREA, "%d대", mDesigner.getMajorAge());
+        majorTxt.setText(majorAge);
         avgTxt.setText(mDesigner.getAvgRating()+"");
 
         int index = (int) mDesigner.getAvgRating();
-        for (int i=0; i<index; i++) {
+        for (int i = 0; i < index; i++) {
             stars.get(i).setVisibility(View.VISIBLE);
         }
 
+        mAdapter = new PortfolioAdapter(mContext, mDesigner.getPortFolio());
+        portfolioView.setAdapter(mAdapter);
     }
-    // setText에 스트링이외의 자료형을 넣으면
-    // 코드 작성시에는 에러가안남.
-    // 하지만 실행중엔 앱이 멈춤.
-    // string외에 자료형을 넣을땐 => 변수 + ""
-    // for문을 이용해 3점대면 별 3개만 표시, 별 2점대면 2개만 표시.
 
     @Override
     public void bindViews() {
         super.bindViews();
+
         this.reservationBtn = (Button) findViewById(R.id.reservationBtn);
-        this.checkSchedualBtn = (Button) findViewById(R.id.checkSchedualBtn);
+        this.reviewBtn = (Button) findViewById(R.id.reviewBtn);
         this.portfolioView = (ListView) findViewById(R.id.portfolioView);
         this.star5 = (ImageView) findViewById(R.id.star5);
         this.star4 = (ImageView) findViewById(R.id.star4);
@@ -125,6 +131,5 @@ public class ViewDeignerDetailActivity extends BaseActivity {
         stars.add(star3);
         stars.add(star4);
         stars.add(star5);
-
     }
 }
